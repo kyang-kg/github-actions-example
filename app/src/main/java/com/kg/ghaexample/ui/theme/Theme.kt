@@ -1,4 +1,4 @@
-package com.testing.`fun`.ui.theme
+package com.kg.ghaexample.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,4 +1,4 @@
-package com.testing.`fun`
+package com.kg.ghaexample
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.testing.`fun`.ui.theme
+package com.kg.ghaexample.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

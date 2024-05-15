@@ -1,4 +1,4 @@
-package com.testing.`fun`
+package com.kg.ghaexample
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
