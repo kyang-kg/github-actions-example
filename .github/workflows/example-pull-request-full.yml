@@ -44,7 +44,7 @@ jobs:
       - name: "Set up Gradle."
         uses: gradle/actions/setup-gradle@v3
         with:
-          cache-read-only: ${{ github.event_name == 'pull_request' }
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Lint"
         shell: bash
@@ -93,7 +93,7 @@ jobs:
       - name: "Set up Gradle."
         uses: gradle/actions/setup-gradle@v3
         with:
-          cache-read-only: ${{ github.event_name == 'pull_request' }
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Execute unit tests."
         shell: bash
@@ -142,7 +142,7 @@ jobs:
       - name: "Set up Gradle."
         uses: gradle/actions/setup-gradle@v3
         with:
-          cache-read-only: ${{ github.event_name == 'pull_request' }
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Execute unit tests."
         shell: bash
