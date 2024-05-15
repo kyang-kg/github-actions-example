@@ -28,7 +28,7 @@ jobs:
           distribution: temurin
 
       - name: "Set up Android SDK."
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
         with:
           log-accepted-android-sdk-licenses: false
 
@@ -75,7 +75,7 @@ jobs:
           distribution: temurin
 
       - name: "Set up Android SDK."
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
         with:
           log-accepted-android-sdk-licenses: false
 
@@ -122,7 +122,7 @@ jobs:
           distribution: temurin
 
       - name: "Set up Android SDK."
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
         with:
           log-accepted-android-sdk-licenses: false
 
