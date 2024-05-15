@@ -1,0 +1,16 @@
+name: "Example one"
+
+on:
+  push:
+    branches:
+      - "develop"
+#      - "main"
+
+jobs:
+  print-hello:
+    name: "Print Hello"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Print Hello"
+        shell: bash
+        run: echo "Hello, world!"
