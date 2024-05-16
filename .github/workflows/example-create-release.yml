@@ -1,0 +1,92 @@
+name: "Create new release"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (Major.Minor.Patch)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: "Release ${{ github.event.inputs.version }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    permissions: { }
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+
+      - name: "Validate and prepare parameters."
+        id: params
+        env:
+          BRANCH: ${{ github.ref }}
+          VERSION: ${{ github.event.inputs.version }}
+        run: |
+          # regex to match a version number
+          if ! [[ ${VERSION} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Version '${VERSION}' does not match the expected format: '1.2.3'."
+              exit 1
+          fi
+          echo "release-name=v${VERSION}" >> "${GITHUB_OUTPUT}"
+
+      - name: "Checkout ${{ github.ref }} from ${{ github.repository }} repository."
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: "Prepare Git."
+        env:
+          USER: ${{ github.actor }}
+          # https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address#about-commit-email-addresses
+          EMAIL: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
+        run: |
+          git config author.name "${USER}"
+          git config author.email "${EMAIL}"
+          git config committer.name "Testing"
+          git config committer.email "test@repo.com"
+
+      - name: "Make changes for release."
+        working-directory: .github/workflows
+        env:
+          VERSION: ${{ inputs.version }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Note: if you test this on Mac, change `-i` to `-i ''`.
+          sed -i -re "s/VERSION_NAME=.*/VERSION_NAME=${VERSION}/g" version.properties
+          # Output the changes to console, useful for debugging.
+          git diff
+
+      - name: "Prepare local git changes."
+        env:
+          VERSION: ${{ steps.params.outputs.release-name }}
+        run: |
+          # This follows from previous steps, adding changes prepared earlier.
+          git add .
+          git commit --message="Release ${VERSION}"
+
+          git tag "${VERSION}" --annotate --message="Release ${VERSION}"
+
+      - name: "Update remote."
+        env:
+          BRANCH: ${{ github.ref }}
+          VERSION: ${{ steps.params.outputs.release-name }}
+        run: |
+          # Which can fail if there are newer commits on the branch, after this workflow started.
+          git push origin "${BRANCH}"
+          # Finally push the tag to finalize the release.
+          git push origin "${VERSION}"
+
+      - name: "Create GitHub release."
+        if: ${{ steps.params.outputs.pre-release == 'false' }}
+        env:
+          TAG: ${{ steps.params.outputs.release-name }}
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          link=$(gh release create "${TAG}" --verify-tag --generate-notes --latest)
