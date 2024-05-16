@@ -59,7 +59,9 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           # Note: if you test this on Mac, change `-i` to `-i ''`.
-          sed -i -re "s/VERSION_NAME=.*/VERSION_NAME=${VERSION}/g" version.properties
+          pwd
+          ls
+          sed -i -re "s/VERSION_NAME=.*/VERSION_NAME=${VERSION}/g" ../../version.properties
           # Output the changes to console, useful for debugging.
           git diff
 
@@ -84,9 +86,9 @@ jobs:
           git push origin "${VERSION}"
 
       - name: "Create GitHub release."
-        if: ${{ steps.params.outputs.pre-release == 'false' }}
         env:
           TAG: ${{ steps.params.outputs.release-name }}
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           link=$(gh release create "${TAG}" --verify-tag --generate-notes --latest)
+          echo "::notice file=.github/workflows/release.yml,title=Release ${TAG}::Released: ${link}"
