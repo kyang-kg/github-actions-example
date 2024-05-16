@@ -59,8 +59,9 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           # Note: if you test this on Mac, change `-i` to `-i ''`.
+          pwd
           ls
-          sed -i -re "s/VERSION_NAME=.*/VERSION_NAME=${VERSION}/g" -- version.properties
+          sed -i -re "s/VERSION_NAME=.*/VERSION_NAME=${VERSION}/g" ../../version.properties
           # Output the changes to console, useful for debugging.
           git diff
 
