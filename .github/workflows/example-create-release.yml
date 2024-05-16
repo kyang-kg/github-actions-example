@@ -41,16 +41,16 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.RELEASE_TOKEN }}
 
-#      - name: "Prepare Git."
-#        env:
-#          USER: ${{ github.actor }}
-#          # https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address#about-commit-email-addresses
-#          EMAIL: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
-#        run: |
-#          git config author.name "${USER}"
-#          git config author.email "${EMAIL}"
-#          git config committer.name "test"
-#          git config committer.email "test@test.test"
+      - name: "Prepare Git."
+        env:
+          USER: ${{ github.actor }}
+          # https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address#about-commit-email-addresses
+          EMAIL: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
+        run: |
+          git config author.name "${USER}"
+          git config author.email "${EMAIL}"
+          git config committer.name "Testing"
+          git config committer.email "test@repo.com"
 
       - name: "Make changes for release."
         working-directory: .github/workflows
@@ -72,9 +72,6 @@ jobs:
           git commit --message="Release ${VERSION}"
 
           git tag "${VERSION}" --annotate --message="Release ${VERSION}"
-
-#          git revert HEAD --no-commit
-#          git commit --message="Prepare development version."
 
       - name: "Update remote."
         env:
