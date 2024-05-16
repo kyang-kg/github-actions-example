@@ -86,9 +86,9 @@ jobs:
           git push origin "${VERSION}"
 
       - name: "Create GitHub release."
-        if: ${{ steps.params.outputs.pre-release == 'false' }}
         env:
           TAG: ${{ steps.params.outputs.release-name }}
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           link=$(gh release create "${TAG}" --verify-tag --generate-notes --latest)
+          echo "::notice file=.github/workflows/release.yml,title=Release ${TAG}::Released: ${link}"
