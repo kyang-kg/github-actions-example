@@ -36,8 +36,8 @@ jobs:
 
       - name: "Checkout ${{ github.ref }} ref in ${{ github.repository }} repository."
         uses: actions/checkout@v4
-        # be clear for example
         with:
+          #this is a default value, see
           token: ${{ github.token }}
 
       - name: "Set up Gradle."

@@ -3,7 +3,7 @@ name: "Example with env variables"
 on:
   push:
     branches:
-      - "test/**"
+      - "TODO"
 
 jobs:
   test-variables:
@@ -20,7 +20,7 @@ jobs:
       - name: "Using repository env"
         shell: bash
         run: |
-          echo ${{ env.TEST_VARIABLE }}
+          echo ${{ vars.TEST_VARIABLE }}
 
       - name: "Using repository secret"
         shell: bash
