@@ -1,10 +1,10 @@
-name: "Example one"
+name: "Example simple"
 
 on:
   push:
     branches:
-      - "develop"
 #      - "main"
+      - "develop"
 
 jobs:
   print-hello:

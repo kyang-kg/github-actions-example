@@ -1,0 +1,24 @@
+name: "Example output"
+
+on:
+  push:
+    branches:
+      - "test/**"
+
+jobs:
+  output-multi-step:
+    name: "Job with output"
+    runs-on: ubuntu-latest
+    outputs:
+        hello: ${{ steps.print-hello.outputs.hello }}
+    steps:
+      - name: "Output Statement"
+        id: statement
+        shell: bash
+        run: |
+          echo "statement=I am a cat" >> "${GITHUB_OUTPUT}"
+
+      - name: "Echo output from statement"
+        shell: bash
+        run: |
+          echo ${{ steps.statement.outputs.statement }}

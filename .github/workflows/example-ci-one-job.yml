@@ -1,4 +1,4 @@
-name: "Example pull request"
+name: "Android CI - One Job"
 
 on:
   pull_request:
@@ -32,14 +32,11 @@ jobs:
         with:
           log-accepted-android-sdk-licenses: false
 
-      - name: "Set up Java for Project."
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
       - name: "Checkout ${{ github.ref }} ref in ${{ github.repository }} repository."
         uses: actions/checkout@v4
+        # be clear for example
+        with:
+          token: ${{ github.token }}
 
       - name: "Set up Gradle."
         uses: gradle/actions/setup-gradle@v3
@@ -47,7 +44,6 @@ jobs:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Lint"
-        shell: bash
         run: ./gradlew :app:lintRelease
 
       - name: "Upload 'Lint reports' artifact."
@@ -58,42 +54,6 @@ jobs:
           if-no-files-found: error
           path: |
             **/build/reports/lint-*
-
-  android-test:
-    name: "Android Test"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    timeout-minutes: 10
-    defaults:
-      run:
-        shell: bash
-    steps:
-
-      - name: "Set up Java for Android SDK."
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
-      - name: "Set up Android SDK."
-        uses: android-actions/setup-android@v3
-        with:
-          log-accepted-android-sdk-licenses: false
-
-      - name: "Set up Java for Project."
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
-      - name: "Checkout ${{ github.ref }} ref in ${{ github.repository }} repository."
-        uses: actions/checkout@v4
-
-      - name: "Set up Gradle."
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Execute unit tests."
         shell: bash
@@ -107,42 +67,6 @@ jobs:
           if-no-files-found: error
           path: |
             **/build/reports/tests
-
-  android-build:
-    name: "Android Build"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    timeout-minutes: 10
-    defaults:
-      run:
-        shell: bash
-    steps:
-
-      - name: "Set up Java for Android SDK."
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
-      - name: "Set up Android SDK."
-        uses: android-actions/setup-android@v3
-        with:
-          log-accepted-android-sdk-licenses: false
-
-      - name: "Set up Java for Project."
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
-      - name: "Checkout ${{ github.ref }} ref in ${{ github.repository }} repository."
-        uses: actions/checkout@v4
-
-      - name: "Set up Gradle."
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Execute unit tests."
         shell: bash
