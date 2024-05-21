@@ -4,10 +4,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - "main"
+#      - "main"
+      - "develop"
   push:
     branches:
-      - "main"
+#      - "main"
+      - "develop"
 
 jobs:
   android-lint:
