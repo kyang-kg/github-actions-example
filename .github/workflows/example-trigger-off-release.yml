@@ -3,7 +3,7 @@ name: "TODO"
 on:
   push:
     branches:
-      - "develop"
+      - "TODO"
 
 jobs:
   print-hello:

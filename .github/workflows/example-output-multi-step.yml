@@ -3,14 +3,14 @@ name: "Example output"
 on:
   push:
     branches:
-      - "TODO"
+      - "multiple-steps"
 
 jobs:
   output-multi-step:
     name: "Job with output"
     runs-on: ubuntu-latest
     outputs:
-        hello: ${{ steps.print-hello.outputs.hello }}
+        hello: ${{ steps.statement.outputs.statement }}
     steps:
       - name: "Output Statement"
         id: statement
@@ -22,3 +22,14 @@ jobs:
         shell: bash
         run: |
           echo ${{ steps.statement.outputs.statement }}
+
+  second-job:
+    # Outputs from jobs can be useful when using a reusable action
+    name: "Job that relies on output"
+    runs-on: ubuntu-latest
+    needs: output-multi-step
+    steps:
+      - name: "Print output from previous job"
+        shell: bash
+        run: |
+          echo ${{ needs.output-multi-step.outputs.hello }}

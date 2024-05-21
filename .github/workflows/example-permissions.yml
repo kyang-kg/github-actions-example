@@ -3,13 +3,17 @@ name: "Example permissions"
 on:
   push:
     branches:
-      - "test/**"
+      - "permissions"
 
 jobs:
   with-default-permissions:
     name: "Job with default permissions"
     runs-on: ubuntu-latest
     steps:
+      # The checkout action uses github token by default to attempt to clone the repository
+      # i.e.
+      # with:
+      #   token: ${{ github.token }}
       - name: "Checkout"
         uses: actions/checkout@v4
 

@@ -1,0 +1,41 @@
+name: "Composite Action"
+
+on:
+  push:
+    branches:
+      - "composite-example"
+
+jobs:
+  print-hello:
+    name: "Do something"
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: "Checkout ${repo}"
+        uses: actions/checkout@v4
+
+      - name: "Make some changes"
+        run: |
+          echo "Hello, world!" >> hello.txt
+
+      - name: "Commit changes"
+        run: |
+          git config --global user.email "some@actor.com"
+          git config --global user.name "Test Actor"
+          git add hello.txt
+          git commit -m "make some changes"
+
+      - name: "Run composite action"
+        id: composite-action
+        uses: ./actions/example-composite
+        with:
+          input_sha: "HEAD"
+
+      - name: "Echo output"
+        run: |
+          echo "Output: ${{ steps.composite-action.outputs.change_type }}"
+

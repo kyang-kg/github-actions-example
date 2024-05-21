@@ -3,7 +3,7 @@ name: "Example with env variables"
 on:
   push:
     branches:
-      - "TODO"
+      - "using-variables"
 
 jobs:
   test-variables:
