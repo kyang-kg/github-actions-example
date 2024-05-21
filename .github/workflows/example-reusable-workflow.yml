@@ -14,12 +14,10 @@ on:
     outputs:
       change_type:
         description: "Change type between input_sha and previous commit"
-        type: string
-        value: ${{ steps.get-change-type.outputs.change_type }}
+        value: ${{ jobs.get-change-type.outputs.change_type }}
       current_time:
         description: "Current time"
-        type: string
-        value: ${{ steps.get-current-time.outputs.current_time }}
+        value: ${{ jobs.get-current-time.outputs.current_time }}
 
 jobs:
 
