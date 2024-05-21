@@ -2,6 +2,8 @@ name: "Example simple"
 
 on:
   push:
+    branches:
+      - "some**"
 
 jobs:
   print-hello:
@@ -12,4 +14,4 @@ jobs:
         shell: bash
         run: echo "Hello, world!"
       - name: "test no shell"
-        run: echo "Hello, world!"g
+        run: echo "Hello, world!"
