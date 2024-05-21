@@ -1,0 +1,31 @@
+name: "Use reusable workflow"
+
+on:
+  push:
+    branches:
+      - "test/**"
+
+jobs:
+  use-reusable-workflow:
+    name: "Use reusable workflow"
+    uses: kyang-kg/github-actions-example/.github/workflows/example-reusable-workflow.yml@test/multiple-files
+    with:
+      input_sha: "HEAD"
+    secrets:
+      secret-one: ${{ secrets.TEST_SECRET }}
+
+  use-reusable-workflow-outputs:
+    name: "Use outputs"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    needs:
+      - use-reusable-workflow
+    steps:
+      - name: "Print outputs"
+        env:
+          CHANGE_TYPE: ${{ needs.use-reusable-workflow.outputs.change_type }}
+          CURRENT_TIME: ${{ needs.use-reusable-workflow.outputs.current_time }}
+        run: |
+          echo "${CHANGE_TYPE} ${CURRENT_TIME}"

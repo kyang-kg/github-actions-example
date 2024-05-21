@@ -3,7 +3,7 @@ name: "Composite Action"
 on:
   push:
     branches:
-      - "composite-example"
+      - "test/**"
 
 jobs:
   print-hello:
