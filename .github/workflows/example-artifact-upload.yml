@@ -3,8 +3,7 @@ name: "Example artifact upload"
 on:
   push:
     branches:
-      - "test/**"
-
+      - "fixes"
 
 jobs:
   upload-artifacts:
@@ -33,9 +32,6 @@ jobs:
     needs:
       - upload-artifacts
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-
       - name: "Download text files"
         uses: actions/download-artifact@v4
         with:

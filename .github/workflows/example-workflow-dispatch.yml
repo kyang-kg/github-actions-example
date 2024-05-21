@@ -1,0 +1,17 @@
+name: "Example workflow dispatch"
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_name:
+        description: "Name of the person to greet"
+        required: true
+
+jobs:
+  print-hello:
+    name: "Print Greeting"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Print Hello ${{ inputs.input_name }}"
+        shell: bash
+        run: echo "Hello ${{ inputs.input_name }}"
