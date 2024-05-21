@@ -1,0 +1,49 @@
+name: "Example artifact upload"
+
+on:
+  push:
+    branches:
+      - "test/**"
+
+
+jobs:
+  upload-artifacts:
+    name: "Upload artifact"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Create artifact"
+        shell: bash
+        run: |
+          echo "123.txt" >> artifact.txt
+          echo "456.txt" >> artifact2.txt
+
+      - name: "Upload text files"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Text files"
+          path: |
+            *.txt
+
+  download-artifacts:
+    name: "Download artifacts"
+    runs-on: ubuntu-latest
+    needs:
+      - upload-artifacts
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Download text files"
+        uses: actions/download-artifact@v4
+        with:
+          name: "Text files"
+          path: .
+
+      - name: "Cat contents"
+        shell: bash
+        run: |
+          cat artifact.txt
+          cat artifact2.txt
