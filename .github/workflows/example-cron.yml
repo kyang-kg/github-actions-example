@@ -1,0 +1,14 @@
+name: "Scheduling a job"
+
+on:
+  schedule:
+    - cron: "30 16 22 5 *"
+
+jobs:
+  print-hello:
+    name: "Print Time"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Print current time"
+        shell: bash
+        run: echo $(date)

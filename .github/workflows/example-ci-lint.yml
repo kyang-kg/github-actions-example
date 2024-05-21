@@ -1,0 +1,58 @@
+name: "Android Lint"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+#      - "main"
+      - "test"
+  push:
+    branches:
+#      - "main"
+      - "test"
+
+jobs:
+  android-lint:
+    name: "Android Lint"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+
+      - name: "Set up Java for Android SDK."
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+
+      - name: "Set up Android SDK."
+        uses: android-actions/setup-android@v3
+        with:
+          log-accepted-android-sdk-licenses: false
+
+      - name: "Checkout ${{ github.ref }} ref in ${{ github.repository }} repository."
+        uses: actions/checkout@v4
+        with:
+          #this is a default value, see
+          token: ${{ github.token }}
+
+      - name: "Set up Gradle."
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: "Lint"
+        run: ./gradlew :app:lintRelease
+
+      - name: "Upload 'Lint reports' artifact."
+        uses: actions/upload-artifact@v4
+        if: ${{ success() || failure() }}
+        with:
+          name: "Lint reports"
+          if-no-files-found: error
+          path: |
+            **/build/reports/lint-*

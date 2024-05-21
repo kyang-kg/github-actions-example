@@ -1,0 +1,51 @@
+name: "Custom action"
+description: "This action looks at the change between the last two commits and acts accordingly"
+
+inputs:
+  input_sha:
+    description: "input_sha"
+    required: true
+outputs:
+  change_type:
+    description: "What type of change type the last two commits is"
+    value: ${{ steps.get_change.outputs.change_type }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Get change type between last two commits"
+      id: get_change
+      shell: bash
+      env:
+        INPUT_SHA: ${{ inputs.input_sha }}
+        # > results in a space separated string
+        FILTERS: >
+          \.github/workflows/
+          \.github/actions/
+      run: |
+        if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
+          git fetch --verbose origin
+          # replace ' ' with '|'
+          regex=$(echo $FILTERS | sed "s/ /|/g")
+          files_changed=$(git diff-tree --name-only -r "${INPUT_SHA}^" "${INPUT_SHA}")
+          if [ echo "${files_changed}" | grep -E $regex]; then
+            echo "Pipeline files have been modified - commit change type: pipeline"
+            change_type="pipeline"
+          else
+            echo "No pipeline files have been modified - commit change type: app"
+            change_type="app"
+          fi
+        else
+          echo "Failure occurred before git clone; unknown change type"
+          change_type="unknown"
+        fi
+        
+        echo "change_type=${change_type}" >> "${GITHUB_OUTPUT}"
+
+    - name: "Echo change type"
+      shell: bash
+      env:
+        CHANGE_TYPE: ${{ steps.get_change.outputs.change_type}}
+      run: |
+        # use the change type in observability, for example
+        echo "change_type=${CHANGE_TYPE}" | tee --append "${GITHUB_OUTPUT}"

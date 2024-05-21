@@ -1,0 +1,28 @@
+name: "Example with env variables"
+
+on:
+  push:
+    branches:
+      - "using-variables"
+
+jobs:
+  test-variables:
+    name: "Job with variables"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Curl $CURL_URL"
+        env:
+          CURL_URL: "https://api.github.com"
+        shell: bash
+        run: |
+          curl $CURL_URL
+
+      - name: "Using repository env"
+        shell: bash
+        run: |
+          echo ${{ vars.TEST_VARIABLE }}
+
+      - name: "Using repository secret"
+        shell: bash
+        run: |
+          echo ${{ secrets.TEST_SECRET }}

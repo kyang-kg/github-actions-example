@@ -1,0 +1,42 @@
+name: "Example output"
+
+on:
+  push:
+    branches:
+      - "multiple-output"
+  workflow_dispatch:
+
+
+jobs:
+
+  output-multi-step:
+    name: "Job with output"
+    runs-on: ubuntu-latest
+    outputs:
+        statement: ${{ steps.generate-outputs.outputs.statement }}
+        goodbye: ${{ steps.generate-outputs.outputs.goodbye }}
+    steps:
+      - name: "Output Statement"
+        id: generate-outputs
+        shell: bash
+        run: |
+          echo "statement=I am a cat" >> "${GITHUB_OUTPUT}"
+          echo "goodbye=Goodbye, cat!" >> "${GITHUB_OUTPUT}"
+
+      - name: "Echo output from statement"
+        shell: bash
+        run: |
+          echo ${{ steps.generate-outputs.outputs.statement }}
+          echo ${{ steps.generate-outputs.outputs.goodbye }}
+
+  second-job:
+    # Outputs from jobs can be useful when using a reusable action
+    name: "Job that relies on output"
+    runs-on: ubuntu-latest
+    needs: output-multi-step
+    steps:
+      - name: "Print output from previous job"
+        shell: bash
+        run: |
+          echo ${{ needs.output-multi-step.outputs.statement }}
+          echo ${{ needs.output-multi-step.outputs.goodbye }}

@@ -1,13 +1,15 @@
-name: "Example pull request"
+name: "Android CI - multiple jobs"
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - "main"
+#      - "main"
+      - "test"
   push:
     branches:
-      - "main"
+#      - "main"
+      - "test"
 
 jobs:
   android-lint:
@@ -32,14 +34,11 @@ jobs:
         with:
           log-accepted-android-sdk-licenses: false
 
-      - name: "Set up Java for Project."
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
       - name: "Checkout ${{ github.ref }} ref in ${{ github.repository }} repository."
         uses: actions/checkout@v4
+        # be clear for example
+        with:
+          token: ${{ github.token }}
 
       - name: "Set up Gradle."
         uses: gradle/actions/setup-gradle@v3
@@ -47,7 +46,6 @@ jobs:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: "Lint"
-        shell: bash
         run: ./gradlew :app:lintRelease
 
       - name: "Upload 'Lint reports' artifact."
