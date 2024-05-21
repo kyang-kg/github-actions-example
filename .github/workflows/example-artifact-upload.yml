@@ -39,8 +39,8 @@ jobs:
       - name: "Download text files"
         uses: actions/download-artifact@v4
         with:
-          name: "Text files.zip"
-          path: .false
+          name: "Text files"
+          path: .
 
       - name: "Cat contents"
         shell: bash
