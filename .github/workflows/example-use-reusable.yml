@@ -12,7 +12,7 @@ jobs:
     with:
       input_sha: "HEAD"
     secrets:
-      secret-one: ${{ secrets.TEST_SECRET }}
+      secret_one: ${{ secrets.TEST_SECRET }}
 
   use-reusable-workflow-outputs:
     name: "Use outputs"
