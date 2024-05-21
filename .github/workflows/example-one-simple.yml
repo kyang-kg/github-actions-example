@@ -2,11 +2,8 @@ name: "Example simple"
 
 on:
   push:
-    branches:
-#      - "main"
-      - "simple"
 
-jobs:gi
+jobs:
   print-hello:
     name: "Print Hello"
     runs-on: ubuntu-latest
