@@ -3,25 +3,29 @@ name: "Example output"
 on:
   push:
     branches:
-      - "multiple-steps"
+      - "test/**"
 
 jobs:
+
   output-multi-step:
     name: "Job with output"
     runs-on: ubuntu-latest
     outputs:
-        hello: ${{ steps.statement.outputs.statement }}
+        statement: ${{ steps.generate-outputs.outputs.statement }}
+        goodbye: ${{ steps.generate-outputs.outputs.goodbye }}
     steps:
       - name: "Output Statement"
-        id: statement
+        id: generate-outputs
         shell: bash
         run: |
           echo "statement=I am a cat" >> "${GITHUB_OUTPUT}"
+          echo "goodbye=Goodbye, cat!" >> "${GITHUB_OUTPUT}"
 
       - name: "Echo output from statement"
         shell: bash
         run: |
-          echo ${{ steps.statement.outputs.statement }}
+          echo ${{ steps.generate-outputs.outputs.statement }}
+          echo ${{ steps.generate-outputs.outputs.statement }}
 
   second-job:
     # Outputs from jobs can be useful when using a reusable action
@@ -32,4 +36,5 @@ jobs:
       - name: "Print output from previous job"
         shell: bash
         run: |
-          echo ${{ needs.output-multi-step.outputs.hello }}
+          echo ${{ needs.output-multi-step.outputs.statement }}
+          echo ${{ needs.output-multi-step.outputs.goodbye }}

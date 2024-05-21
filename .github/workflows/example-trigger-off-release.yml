@@ -1,15 +1,17 @@
 name: "TODO"
 
 on:
-  push:
-    branches:
-      - "TODO"
+  release:
+    types:
+      - created
 
 jobs:
-  print-hello:
-    name: "Print Hello"
+  print-tag-name:
+    name: "Print Tag Name"
     runs-on: ubuntu-latest
     steps:
-      - name: "Print Hello"
+      - name: "Print Tag Name"
         shell: bash
-        run: echo "Hello, world!"
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: echo "$RELEASE_TAG was created!
