@@ -3,7 +3,7 @@ name: "Composite Action"
 on:
   push:
     branches:
-      - "test/**"
+      - "composite-action"
 
 jobs:
   print-hello:
@@ -36,6 +36,8 @@ jobs:
           input_sha: "HEAD"
 
       - name: "Echo output"
+        env:
+          CHANGE_TYPE: ${{ steps.composite-action.outputs.change_type }}
         run: |
-          echo "Output: ${{ steps.composite-action.outputs.change_type }}"
+          echo "Output: ${CHANGE_TYPE}"
 

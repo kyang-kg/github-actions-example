@@ -3,7 +3,7 @@ name: "Example output"
 on:
   push:
     branches:
-      - "test/**"
+      - "multiple-steps"
 
 jobs:
   output-multi-step:

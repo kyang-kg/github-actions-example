@@ -8,7 +8,7 @@ on:
 jobs:
   use-reusable-workflow:
     name: "Use reusable workflow"
-    uses: kyang-kg/github-actions-example/.github/workflows/example-reusable-workflow.yml@test/multiple-files
+    uses: kyang-kg/github-actions-example/.github/workflows/example-reusable-workflow.yml@test/many-files
     with:
       input_sha: "HEAD"
     secrets:
