@@ -4,9 +4,9 @@ on:
   push:
     branches:
 #      - "main"
-      - "develop"
+      - "simple"
 
-jobs:
+jobs:gi
   print-hello:
     name: "Print Hello"
     runs-on: ubuntu-latest
