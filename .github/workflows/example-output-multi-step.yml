@@ -6,7 +6,6 @@ on:
       - "multiple-output"
   workflow_dispatch:
 
-
 jobs:
 
   output-multi-step:
