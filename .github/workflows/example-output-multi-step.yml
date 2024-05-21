@@ -3,7 +3,9 @@ name: "Example output"
 on:
   push:
     branches:
-      - "test/**"
+      - "multiple-output"
+  workflow_dispatch:
+
 
 jobs:
 
@@ -25,7 +27,7 @@ jobs:
         shell: bash
         run: |
           echo ${{ steps.generate-outputs.outputs.statement }}
-          echo ${{ steps.generate-outputs.outputs.statement }}
+          echo ${{ steps.generate-outputs.outputs.goodbye }}
 
   second-job:
     # Outputs from jobs can be useful when using a reusable action
