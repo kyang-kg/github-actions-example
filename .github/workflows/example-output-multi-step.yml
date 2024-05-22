@@ -40,8 +40,8 @@ jobs:
       - name: "Print output from previous job"
         shell: bash
         env:
-          STATEMENT: ${{ steps.generate-outputs.outputs.statement }}
-          GOODBYE: ${{ steps.generate-outputs.outputs.goodbye }}
+          STATEMENT: ${{ needs.output-multi-step.outputs.statement }}
+          GOODBYE: ${{ needs.output-multi-step.outputs.goodbye }}
         run: |      
           echo "${STATEMENT}
           echo "${GOODBYE}"
