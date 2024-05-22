@@ -1,9 +1,8 @@
 name: "Example simple"
 
 on:
-  push:
-    branches:
-      - "simple"
+  pull_request:
+
 jobs:
 
   print-hello:
