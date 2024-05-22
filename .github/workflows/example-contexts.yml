@@ -1,0 +1,25 @@
+name: "Example simple"
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+
+jobs:
+  print-event-name:
+    name: "Print Event Name"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Print Event Name without env"
+        shell: bash
+        run: echo "${{ github.event.pull_request.title }}"
+
+      - name: "Print Event Name with env"
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.github.event.pull_request.title }}
+        run: echo "${EVENT_NAME}"
+
+
