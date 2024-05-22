@@ -43,5 +43,5 @@ jobs:
           STATEMENT: ${{ needs.output-multi-step.outputs.statement }}
           GOODBYE: ${{ needs.output-multi-step.outputs.goodbye }}
         run: |      
-          echo "${STATEMENT}
+          echo "${STATEMENT}"
           echo "${GOODBYE}"
