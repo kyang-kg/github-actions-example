@@ -1,4 +1,4 @@
-name: "Example simple"
+name: "Contexts"
 
 on:
   pull_request:
