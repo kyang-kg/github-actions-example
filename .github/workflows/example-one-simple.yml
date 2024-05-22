@@ -13,5 +13,3 @@ jobs:
       - name: "Print Hello"
         shell: bash
         run: echo "Hello, world!"
-      - name: "test no shell"
-        run: echo "Hello, world!"

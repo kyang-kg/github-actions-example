@@ -6,10 +6,32 @@ on:
       - opened
       - reopened
       - synchronize
+  push:
+    branches:
+      - 'contexts'
 
 jobs:
+
+  contexts:
+    name: "Contexts"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Print some context"
+        env:
+          SOME_SECRET: ${{ secrets.TEST_SECRET }}
+          SOME_VAR: ${{ vars.TEST_VARIABLE }}
+          EVENT_NAME: ${{ github.event_name }}
+        shell: bash
+        run: |
+          echo "Secret: ${SOME_SECRET}"
+          echo "Variable: ${SOME_VAR}"
+          echo "Event Name: ${EVENT_NAME}"
+          echo ${{ vars.TEST_VARIABLE }}
+          echo ${{ github.event.after }}
+
   print-event-name:
     name: "Print Event Name"
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
 
@@ -17,7 +39,7 @@ jobs:
         shell: bash
         run: |
           echo "123" >> 456.txt
-          echo "${{ github.event.pull_request.title }}"; ls
+          echo "${{ github.event.pull_request.title }}"
 
       - name: "Print Event Name with env"
         shell: bash
@@ -25,4 +47,3 @@ jobs:
           EVENT_NAME: ${{ github.event.pull_request.title }}
         run: |
           echo "${EVENT_NAME}"
-          ls
