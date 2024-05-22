@@ -16,7 +16,7 @@ jobs:
       - name: "Print Event Name without env"
         shell: bash
         run: |
-          echo "${{ github.event.pull_request.title }}"
+          echo "${{ github.event.pull_request.title }}"; ls
 
       - name: "Print Event Name with env"
         shell: bash
