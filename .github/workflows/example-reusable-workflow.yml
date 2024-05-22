@@ -54,7 +54,7 @@ jobs:
             regex=$(echo $FILTERS | sed "s/ /|/g")
             files_changed=$(git diff-tree --name-only -r "${INPUT_SHA}^" "${INPUT_SHA}")
             # get files that match regex
-            if [ echo "${files_changed}" | grep -E $regex]; then
+            if [ echo "${files_changed}" | grep -E $regex ]; then
               echo "Pipeline files have been modified - commit change type: pipeline"
               change_type="pipeline"
             else
