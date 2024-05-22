@@ -22,6 +22,10 @@ jobs:
         shell: bash
         env:
           EVENT_NAME: ${{ github.event.pull_request.title }}
-        run: echo "${EVENT_NAME}"
+        run: |
+          echo "${EVENT_NAME}"
+          ls
+          echo "123" >> 456.txt
+          ls
 
 
