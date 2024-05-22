@@ -24,9 +24,12 @@ jobs:
 
       - name: "Echo output from statement"
         shell: bash
+        env:
+          STATEMENT: ${{ steps.generate-outputs.outputs.statement }}
+          GOODBYE: ${{ steps.generate-outputs.outputs.goodbye }}
         run: |
-          echo ${{ steps.generate-outputs.outputs.statement }}
-          echo ${{ steps.generate-outputs.outputs.goodbye }}
+          echo "${STATEMENT}"
+          echo "${GOODBYE}"
 
   second-job:
     # Outputs from jobs can be useful when using a reusable action
@@ -36,6 +39,9 @@ jobs:
     steps:
       - name: "Print output from previous job"
         shell: bash
-        run: |
-          echo ${{ needs.output-multi-step.outputs.statement }}
-          echo ${{ needs.output-multi-step.outputs.goodbye }}
+        env:
+          STATEMENT: ${{ needs.output-multi-step.outputs.statement }}
+          GOODBYE: ${{ needs.output-multi-step.outputs.goodbye }}
+        run: |      
+          echo "${STATEMENT}"
+          echo "${GOODBYE}"
