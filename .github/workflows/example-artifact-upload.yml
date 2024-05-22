@@ -3,7 +3,7 @@ name: "Example artifact upload"
 on:
   push:
     branches:
-      - "fixes"
+      - "artifacts"
 
 jobs:
   upload-artifacts:

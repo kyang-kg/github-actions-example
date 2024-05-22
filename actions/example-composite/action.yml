@@ -41,11 +41,3 @@ runs:
         fi
         
         echo "change_type=${change_type}" >> "${GITHUB_OUTPUT}"
-
-    - name: "Echo change type"
-      shell: bash
-      env:
-        CHANGE_TYPE: ${{ steps.get_change.outputs.change_type}}
-      run: |
-        # use the change type in observability, for example
-        echo "change_type=${CHANGE_TYPE}" | tee --append "${GITHUB_OUTPUT}"

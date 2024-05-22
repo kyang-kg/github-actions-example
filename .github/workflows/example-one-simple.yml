@@ -3,7 +3,7 @@ name: "Example simple"
 on:
   push:
     branches:
-      - "some**"
+      - "simple"
 
 jobs:
   print-hello:
