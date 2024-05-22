@@ -6,10 +6,19 @@ on:
       - "simple"
 
 jobs:
+  
   print-hello:
     name: "Print Hello"
     runs-on: ubuntu-latest
     steps:
+
       - name: "Print Hello"
         shell: bash
         run: echo "Hello, world!"
+
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Git show"
+        shell: bash
+        run: git show
