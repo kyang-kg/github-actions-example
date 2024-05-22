@@ -42,3 +42,12 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
+
+  with-other-permissions:
+    name: "Job with contents other permissions"
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4

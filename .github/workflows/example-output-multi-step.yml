@@ -37,5 +37,5 @@ jobs:
       - name: "Print output from previous job"
         shell: bash
         run: |
-          echo ${{ needs.output-multi-step.outputs.statement }}
-          echo ${{ needs.output-multi-step.outputs.goodbye }}
+          echo ${{ jobs.output-multi-step.outputs.statement }}
+          echo ${{ jobs.output-multi-step.outputs.goodbye }}
