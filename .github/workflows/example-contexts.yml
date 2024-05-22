@@ -5,6 +5,7 @@ on:
     types:
       - opened
       - reopened
+      - synchronize
 
 jobs:
   print-event-name:
@@ -14,12 +15,13 @@ jobs:
 
       - name: "Print Event Name without env"
         shell: bash
-        run: echo "${{ github.event.pull_request.title }}"
+        run: |
+          echo "${{ github.event.pull_request.title }}"
 
       - name: "Print Event Name with env"
         shell: bash
         env:
-          EVENT_NAME: ${{ github.github.event.pull_request.title }}
+          EVENT_NAME: ${{ github.event.pull_request.title }}
         run: echo "${EVENT_NAME}"
 
 
